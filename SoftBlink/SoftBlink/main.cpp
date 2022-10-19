@@ -15,14 +15,15 @@
 int main(void)
 {
 	
-	DDRC = 0xFF;
-    
+	DDRC = (1 << PC5); // Setter PIN som output
+
 	while (1) 
-    {
-		 PORTC=0xFF;
-		 _delay_ms(1000); //so that LED would remain in ON state for 1 sec and then  turns off  for  1 sec.
-		 PORTC=0b00;
-		 _delay_ms(1000);
+    {		
+		PORTC &= ~(1 << PC5); 
+		_delay_ms(1000); //so that LED would remain in ON state for 1 sec and then  turns off  for  1 sec.
+		
+		PORTC |= (1 << PC5);
+		_delay_ms(1000);
     }
 }
 

@@ -3,29 +3,29 @@ SoftBlink.elf:     file format elf32-avr
 
 Sections:
 Idx Name          Size      VMA       LMA       File off  Algn
-  0 .data         00000000  00800100  00800100  00000108  2**0
+  0 .data         00000000  00800100  00800100  0000010e  2**0
                   CONTENTS, ALLOC, LOAD, DATA
-  1 .text         000000b4  00000000  00000000  00000054  2**1
+  1 .text         000000ba  00000000  00000000  00000054  2**1
                   CONTENTS, ALLOC, LOAD, READONLY, CODE
-  2 .comment      00000030  00000000  00000000  00000108  2**0
+  2 .comment      00000030  00000000  00000000  0000010e  2**0
                   CONTENTS, READONLY
-  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000138  2**2
+  3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000140  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  00000174  2**0
+  4 .debug_aranges 00000020  00000000  00000000  0000017c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000740  00000000  00000000  00000194  2**0
+  5 .debug_info   00000740  00000000  00000000  0000019c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000696  00000000  00000000  000008d4  2**0
+  6 .debug_abbrev 00000696  00000000  00000000  000008dc  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000026e  00000000  00000000  00000f6a  2**0
+  7 .debug_line   0000026e  00000000  00000000  00000f72  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  000011d8  2**2
+  8 .debug_frame  00000024  00000000  00000000  000011e0  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003ee  00000000  00000000  000011fc  2**0
+  9 .debug_str    000003ee  00000000  00000000  00001204  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000048  00000000  00000000  000015ea  2**0
+ 10 .debug_loc    00000048  00000000  00000000  000015f2  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  00001632  2**0
+ 11 .debug_ranges 00000010  00000000  00000000  0000163a  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -66,7 +66,7 @@ Disassembly of section .text:
   70:	de bf       	out	0x3e, r29	; 62
   72:	cd bf       	out	0x3d, r28	; 61
   74:	0e 94 40 00 	call	0x80	; 0x80 <main>
-  78:	0c 94 58 00 	jmp	0xb0	; 0xb0 <_exit>
+  78:	0c 94 5b 00 	jmp	0xb6	; 0xb6 <_exit>
 
 0000007c <__bad_interrupt>:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
@@ -77,46 +77,50 @@ Disassembly of section .text:
 int main(void)
 {
 	
-	DDRC = 0xFF;
-  80:	8f ef       	ldi	r24, 0xFF	; 255
+	DDRC = (1 << PC5); // Setter PIN som output
+  80:	80 e2       	ldi	r24, 0x20	; 32
   82:	87 b9       	out	0x07, r24	; 7
-    
+
 	while (1) 
-    {
-		 PORTC=0xFF;
-  84:	8f ef       	ldi	r24, 0xFF	; 255
-  86:	88 b9       	out	0x08, r24	; 8
+    {		
+		PORTC &= ~(1 << PC5); 
+  84:	88 b1       	in	r24, 0x08	; 8
+  86:	8f 7d       	andi	r24, 0xDF	; 223
+  88:	88 b9       	out	0x08, r24	; 8
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
 	#endif
 
 	__builtin_avr_delay_cycles(__ticks_dc);
-  88:	2f ef       	ldi	r18, 0xFF	; 255
-  8a:	89 e6       	ldi	r24, 0x69	; 105
-  8c:	98 e1       	ldi	r25, 0x18	; 24
-  8e:	21 50       	subi	r18, 0x01	; 1
-  90:	80 40       	sbci	r24, 0x00	; 0
-  92:	90 40       	sbci	r25, 0x00	; 0
-  94:	e1 f7       	brne	.-8      	; 0x8e <main+0xe>
-  96:	00 c0       	rjmp	.+0      	; 0x98 <main+0x18>
-  98:	00 00       	nop
-		 _delay_ms(1000); //so that LED would remain in ON state for 1 sec and then  turns off  for  1 sec.
-		 PORTC=0b00;
-  9a:	18 b8       	out	0x08, r1	; 8
-  9c:	2f ef       	ldi	r18, 0xFF	; 255
-  9e:	89 e6       	ldi	r24, 0x69	; 105
-  a0:	98 e1       	ldi	r25, 0x18	; 24
-  a2:	21 50       	subi	r18, 0x01	; 1
-  a4:	80 40       	sbci	r24, 0x00	; 0
-  a6:	90 40       	sbci	r25, 0x00	; 0
-  a8:	e1 f7       	brne	.-8      	; 0xa2 <main+0x22>
-  aa:	00 c0       	rjmp	.+0      	; 0xac <main+0x2c>
-  ac:	00 00       	nop
-  ae:	ea cf       	rjmp	.-44     	; 0x84 <main+0x4>
+  8a:	2f e3       	ldi	r18, 0x3F	; 63
+  8c:	8d e0       	ldi	r24, 0x0D	; 13
+  8e:	93 e0       	ldi	r25, 0x03	; 3
+  90:	21 50       	subi	r18, 0x01	; 1
+  92:	80 40       	sbci	r24, 0x00	; 0
+  94:	90 40       	sbci	r25, 0x00	; 0
+  96:	e1 f7       	brne	.-8      	; 0x90 <main+0x10>
+  98:	00 c0       	rjmp	.+0      	; 0x9a <main+0x1a>
+  9a:	00 00       	nop
+		_delay_ms(1000); //so that LED would remain in ON state for 1 sec and then  turns off  for  1 sec.
+		
+		PORTC |= (1 << PC5);
+  9c:	88 b1       	in	r24, 0x08	; 8
+  9e:	80 62       	ori	r24, 0x20	; 32
+  a0:	88 b9       	out	0x08, r24	; 8
+  a2:	2f e3       	ldi	r18, 0x3F	; 63
+  a4:	8d e0       	ldi	r24, 0x0D	; 13
+  a6:	93 e0       	ldi	r25, 0x03	; 3
+  a8:	21 50       	subi	r18, 0x01	; 1
+  aa:	80 40       	sbci	r24, 0x00	; 0
+  ac:	90 40       	sbci	r25, 0x00	; 0
+  ae:	e1 f7       	brne	.-8      	; 0xa8 <main+0x28>
+  b0:	00 c0       	rjmp	.+0      	; 0xb2 <main+0x32>
+  b2:	00 00       	nop
+  b4:	e7 cf       	rjmp	.-50     	; 0x84 <main+0x4>
 
-000000b0 <_exit>:
-  b0:	f8 94       	cli
+000000b6 <_exit>:
+  b6:	f8 94       	cli
 
-000000b2 <__stop_program>:
-  b2:	ff cf       	rjmp	.-2      	; 0xb2 <__stop_program>
+000000b8 <__stop_program>:
+  b8:	ff cf       	rjmp	.-2      	; 0xb8 <__stop_program>
