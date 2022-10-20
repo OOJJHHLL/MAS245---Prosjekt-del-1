@@ -11,21 +11,21 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   3 .note.gnu.avr.deviceinfo 0000003c  00000000  00000000  00000140  2**2
                   CONTENTS, READONLY
-  4 .debug_aranges 00000020  00000000  00000000  0000017c  2**0
+  4 .debug_aranges 00000030  00000000  00000000  0000017c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  5 .debug_info   00000740  00000000  00000000  0000019c  2**0
+  5 .debug_info   0000077e  00000000  00000000  000001ac  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_abbrev 00000696  00000000  00000000  000008dc  2**0
+  6 .debug_abbrev 000006be  00000000  00000000  0000092a  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_line   0000026e  00000000  00000000  00000f72  2**0
+  7 .debug_line   0000028e  00000000  00000000  00000fe8  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_frame  00000024  00000000  00000000  000011e0  2**2
+  8 .debug_frame  00000044  00000000  00000000  00001278  2**2
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_str    000003ee  00000000  00000000  00001204  2**0
+  9 .debug_str    0000041f  00000000  00000000  000012bc  2**0
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_loc    00000048  00000000  00000000  000015f2  2**0
+ 10 .debug_loc    00000048  00000000  00000000  000016db  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_ranges 00000010  00000000  00000000  0000163a  2**0
+ 11 .debug_ranges 00000020  00000000  00000000  00001723  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -72,21 +72,20 @@ Disassembly of section .text:
   7c:	0c 94 00 00 	jmp	0	; 0x0 <__vectors>
 
 00000080 <main>:
-
-
 int main(void)
 {
 	
-	DDRC = (1 << PC5); // Setter PIN som output
-  80:	80 e2       	ldi	r24, 0x20	; 32
-  82:	87 b9       	out	0x07, r24	; 7
-
+	int brightness = 0;
+	
+	DDRB = (1 << PB1);
+  80:	82 e0       	ldi	r24, 0x02	; 2
+  82:	84 b9       	out	0x04, r24	; 4
 	while (1) 
     {		
-		PORTC &= ~(1 << PC5); 
-  84:	88 b1       	in	r24, 0x08	; 8
-  86:	8f 7d       	andi	r24, 0xDF	; 223
-  88:	88 b9       	out	0x08, r24	; 8
+		PORTB &= ~(1 << PB1); // Setter PIN 5 portC lav
+  84:	85 b1       	in	r24, 0x05	; 5
+  86:	8d 7f       	andi	r24, 0xFD	; 253
+  88:	85 b9       	out	0x05, r24	; 5
 	#else
 		//round up by default
 		__ticks_dc = (uint32_t)(ceil(fabs(__tmp)));
@@ -102,12 +101,12 @@ int main(void)
   96:	e1 f7       	brne	.-8      	; 0x90 <main+0x10>
   98:	00 c0       	rjmp	.+0      	; 0x9a <main+0x1a>
   9a:	00 00       	nop
-		_delay_ms(1000); //so that LED would remain in ON state for 1 sec and then  turns off  for  1 sec.
-		
-		PORTC |= (1 << PC5);
-  9c:	88 b1       	in	r24, 0x08	; 8
-  9e:	80 62       	ori	r24, 0x20	; 32
-  a0:	88 b9       	out	0x08, r24	; 8
+		_delay_ms(1000); // 1 sekund delay
+
+		PORTB |= (1 << PB1); //Setter PIN 5 portC høy
+  9c:	85 b1       	in	r24, 0x05	; 5
+  9e:	82 60       	ori	r24, 0x02	; 2
+  a0:	85 b9       	out	0x05, r24	; 5
   a2:	2f e3       	ldi	r18, 0x3F	; 63
   a4:	8d e0       	ldi	r24, 0x0D	; 13
   a6:	93 e0       	ldi	r25, 0x03	; 3
