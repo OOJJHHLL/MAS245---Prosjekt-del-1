@@ -2411,7 +2411,7 @@ Source: http://catalog.osram-os.com .. LA_LR_LS_LY_P47F_Pb_free.pdf</description
 <part name="SUPPLY1" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="+24V" device="" value="+5V"/>
 <part name="GND2" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GNDA" device=""/>
 <part name="LED2" library="led" library_urn="urn:adsk.eagle:library:259" deviceset="*P4" device="-BOTTOM" package3d_urn="urn:adsk.eagle:package:15878/1" technology="LA"/>
-<part name="R2" library="ngspice-simulation" library_urn="urn:adsk.eagle:library:527439" deviceset="R" device=""/>
+<part name="R2" library="ngspice-simulation" library_urn="urn:adsk.eagle:library:527439" deviceset="R" device="" value="180Ω"/>
 <part name="GND3" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GNDA" device=""/>
 <part name="GND4" library="supply1" library_urn="urn:adsk.eagle:library:371" deviceset="GNDA" device=""/>
 </parts>
@@ -2442,13 +2442,13 @@ Source: http://catalog.osram-os.com .. LA_LR_LS_LY_P47F_Pb_free.pdf</description
 <attribute name="NAME" x="81.28" y="104.14" size="1.778" layer="95" rot="MR180"/>
 <attribute name="VALUE" x="81.28" y="35.56" size="1.778" layer="96"/>
 </instance>
-<instance part="LED1" gate="G$1" x="53.34" y="83.82" smashed="yes">
-<attribute name="NAME" x="56.896" y="79.248" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="59.055" y="79.248" size="1.778" layer="96" rot="R90"/>
+<instance part="LED1" gate="G$1" x="48.26" y="91.44" smashed="yes" rot="R90">
+<attribute name="NAME" x="52.832" y="94.996" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="52.832" y="97.155" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="R1" gate="G$1" x="43.18" y="91.44" smashed="yes">
-<attribute name="NAME" x="40.64" y="93.98" size="1.778" layer="95"/>
-<attribute name="VALUE" x="40.64" y="87.63" size="1.778" layer="96"/>
+<instance part="R1" gate="G$1" x="60.96" y="91.44" smashed="yes" rot="R180">
+<attribute name="NAME" x="63.5" y="88.9" size="1.778" layer="95" rot="R180"/>
+<attribute name="VALUE" x="63.5" y="95.25" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="C3" gate="G$1" x="58.42" y="63.5" smashed="yes">
 <attribute name="NAME" x="59.944" y="63.881" size="1.778" layer="95"/>
@@ -2457,8 +2457,8 @@ Source: http://catalog.osram-os.com .. LA_LR_LS_LY_P47F_Pb_free.pdf</description
 <instance part="SUPPLY1" gate="+24V" x="40.64" y="73.66" smashed="yes">
 <attribute name="VALUE" x="38.1" y="76.835" size="1.778" layer="96"/>
 </instance>
-<instance part="GND2" gate="1" x="25.4" y="88.9" smashed="yes">
-<attribute name="VALUE" x="22.86" y="86.36" size="1.778" layer="96" rot="R90"/>
+<instance part="GND2" gate="1" x="71.12" y="91.44" smashed="yes" rot="R90">
+<attribute name="VALUE" x="73.66" y="88.9" size="1.778" layer="96" rot="R180"/>
 </instance>
 <instance part="LED2" gate="G$1" x="157.48" y="86.36" smashed="yes" rot="R90">
 <attribute name="NAME" x="162.052" y="89.916" size="1.778" layer="95" rot="R180"/>
@@ -2496,20 +2496,15 @@ Source: http://catalog.osram-os.com .. LA_LR_LS_LY_P47F_Pb_free.pdf</description
 <pinref part="IC6" gate="A" pin="OUT"/>
 <wire x1="30.48" y1="71.12" x2="40.64" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="IC2" gate="1" pin="VCC@1"/>
-<wire x1="40.64" y1="71.12" x2="53.34" y2="71.12" width="0.1524" layer="91"/>
-<pinref part="LED1" gate="G$1" pin="C"/>
-<wire x1="53.34" y1="71.12" x2="76.2" y2="71.12" width="0.1524" layer="91"/>
-<wire x1="53.34" y1="78.74" x2="53.34" y2="71.12" width="0.1524" layer="91"/>
-<junction x="53.34" y="71.12"/>
+<wire x1="40.64" y1="71.12" x2="45.72" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="SUPPLY1" gate="+24V" pin="+24V"/>
+<pinref part="LED1" gate="G$1" pin="A"/>
+<wire x1="45.72" y1="71.12" x2="76.2" y2="71.12" width="0.1524" layer="91"/>
+<wire x1="45.72" y1="91.44" x2="45.72" y2="71.12" width="0.1524" layer="91"/>
+<junction x="45.72" y="71.12"/>
 </segment>
 </net>
 <net name="GNDA" class="0">
-<segment>
-<pinref part="R1" gate="G$1" pin="1"/>
-<wire x1="25.4" y1="91.44" x2="38.1" y2="91.44" width="0.1524" layer="91"/>
-<pinref part="GND2" gate="1" pin="GNDA"/>
-</segment>
 <segment>
 <pinref part="GND1" gate="1" pin="GNDA"/>
 <wire x1="22.86" y1="63.5" x2="22.86" y2="50.8" width="0.1524" layer="91"/>
@@ -2536,13 +2531,10 @@ Source: http://catalog.osram-os.com .. LA_LR_LS_LY_P47F_Pb_free.pdf</description
 <pinref part="GND4" gate="1" pin="GNDA"/>
 <wire x1="187.96" y1="86.36" x2="187.96" y2="78.74" width="0.1524" layer="91"/>
 </segment>
-</net>
-<net name="N$1" class="0">
 <segment>
-<pinref part="R1" gate="G$1" pin="2"/>
-<pinref part="LED1" gate="G$1" pin="A"/>
-<wire x1="48.26" y1="91.44" x2="53.34" y2="91.44" width="0.1524" layer="91"/>
-<wire x1="53.34" y1="91.44" x2="53.34" y2="86.36" width="0.1524" layer="91"/>
+<pinref part="R1" gate="G$1" pin="1"/>
+<pinref part="GND2" gate="1" pin="GNDA"/>
+<wire x1="68.58" y1="91.44" x2="66.04" y2="91.44" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="+5V1" class="0">
@@ -2569,6 +2561,13 @@ Source: http://catalog.osram-os.com .. LA_LR_LS_LY_P47F_Pb_free.pdf</description
 <pinref part="LED2" gate="G$1" pin="C"/>
 <pinref part="R2" gate="G$1" pin="1"/>
 <wire x1="162.56" y1="86.36" x2="170.18" y2="86.36" width="0.1524" layer="91"/>
+</segment>
+</net>
+<net name="N$1" class="0">
+<segment>
+<pinref part="LED1" gate="G$1" pin="C"/>
+<wire x1="53.34" y1="91.44" x2="55.88" y2="91.44" width="0.1524" layer="91"/>
+<pinref part="R1" gate="G$1" pin="2"/>
 </segment>
 </net>
 </nets>
