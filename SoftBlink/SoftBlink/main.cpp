@@ -21,34 +21,23 @@ void delay_ms(int n) {
 
 int main(void)
 {
-	/*int i = 0; //Variabel som skal endre seg
-	
-	
-	int delayValue = 1; // Hvor mye On tida skal øke
-	
-	
-	int pulseWidthTime = 25; // Tida på en periode*/
-	
-	//int = 0;
 	
 	int onTime = 0;
 	int offTime = 100;
 	float plp = 0; // Percived light formula
-	//int i = 0;
 	
 	DDRB = (1 << PB1);
+	
 	while (1) 
     {		
-
-
-		for (int i = 0; i <=100; i++) // fra 0 til 100%
+	for (int i = 0; i <=100; i++) // fra 0 til 100%
 		{
 			offTime = 100;
 			onTime = 0;
 			
 			PORTB |= (1 << PB1);
 			
-			while (onTime<i) //onTIme øker så lenge den er mindre enn i
+			while (onTime<i) //onTime øker så lenge den er mindre enn i
 			{
 				_delay_ms(0.15);
 				onTime++;
@@ -62,16 +51,11 @@ int main(void)
 				offTime--;
 			}
 		}
-		
-		
-		//Dimme
 		for (int i = 100; i >= 0; i--) // fra 100 til 0%
 		{
 			offTime = 100;
 			onTime = 0;
-			
-		
-			
+							
 			PORTB |= (1 << PB1);
 			
 			while (onTime<i) //
@@ -89,9 +73,7 @@ int main(void)
 			}
 			
 		}
-		
-		
-		
+				
     }
 }
 
