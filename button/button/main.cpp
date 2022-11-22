@@ -12,26 +12,26 @@
 int main(void)
 {
    
-	DDRB = DDRB | (1 << PB1) ; //Make pin 4 of port B as a output -> PinMode
-	DDRD = DDRD & ~(1 << PD0) ; // Make pin 5 of port C as a input -> PinMode .... 
-	PORTD = (1 << PD0); // Enable internal pull-up resistor
+	DDRB = DDRB | (1 << PB1); 
+	DDRD = DDRD & ~(1 << PD0); 
+	PORTD = (1 << PD0);
 	
    	PORTB = PORTB & ~( 1 << PB1) ;
    
     while (1) 
     {
 		
-		int pinValue = (PIND & (1 << PD0) >> PD0); // DigitalRead
+		int pinValue = (PIND & (1 << PD0) >> PD0); 
 	
 		
 		if(pinValue == 0) // Hvis du leser 0
 		{
-			PORTB = PORTB | ( 1 << PB1) ; //PIN1 of port B is high
+			PORTB = PORTB | ( 1 << PB1) ; 
 		}
 		
 		else if(pinValue == 1)
 		{
-			PORTB = PORTB & ~( 1 << PB1) ; //PIN1 of port B will remain low
+			PORTB = PORTB & ~( 1 << PB1) ; 
 		}
 		
     }
